@@ -20,13 +20,13 @@ plik=`echo $pliki|cut -f8 -d" "`; if [ "$plik" != "" ]; then composite -verbose 
 plik=`echo $pliki|cut -f9 -d" "`; if [ "$plik" != "" ]; then composite -verbose  -geometry +1640+2216 $plik /tmp/montage.png /tmp/montage.png;fi
 
 # CHANGE THIS PATH IN NEW ENVIRONMENT !
-composite -verbose  -geometry +0+0 /home/yaro/bin/arrange_data/karty_setup_poker.png /tmp/montage.png p$page.png
+composite -verbose  -geometry +0+0 /CHANGE/TO/ABSOLUTE/PATH/arrange_data/karty_setup_poker.png /tmp/montage.png p$page.png
 }
 
 clean_bg()
 {
 # CHANGE THIS PATH IN NEW ENVIRONMENT !
-cp -f /home/yaro/bin/arrange_data/bg.jpg /tmp/montage.png
+cp -f /CHANGE/TO/ABSOLUTE/PATH/arrange_data/bg.jpg /tmp/montage.png
 }
 
 help()
