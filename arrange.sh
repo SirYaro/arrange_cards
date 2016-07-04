@@ -40,7 +40,7 @@ fi
 files_list=""
 clean_bg
 
-readarray data < $1				#plik do macierzy
+readarray data < $INPUT				#plik do macierzy
 NUM=`echo "${#data[@]}"`			#ilosc linii w pliku
 
 for linia_nr in `seq 0 $(($NUM-1))`;do
@@ -69,7 +69,7 @@ for page in `seq 1 $pages`;do
 done
 
 echo "Generating pdf file"
-convert p*png -page a4 $2.pdf
+convert p*png -page a4 $OUTPUT
 
 echo "Done."
 
