@@ -10,7 +10,6 @@ source "$DATA_DIR/coordinates/$PROCESSING_SCRIPT"
 
 clean_bg()
 {
-#cp -f /home/yaro/bin/arrange_data/bg.jpg /tmp/montage.png
 cp -f $DATA_DIR/bg.jpg /tmp/montage.png
 }
 
@@ -20,8 +19,8 @@ help()
     -i [filename.txt] input txt filename
     -o [filename.pdf] output pdf filename
     -f [filename.png] frame filename
-    -c [count]        files per page count
-    -d [filename.sh]  script with files parameters
+    -c [count]        files count per page
+    -d [filename.sh]  processing script
     "
 }
 
