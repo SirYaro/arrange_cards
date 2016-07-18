@@ -1,0 +1,6 @@
+zetony/20xhandlowiec_N1.png	2
+zetony/20xhandlowiec_C2.png	1
+zetony/15xkolonia_5_Z.png	3
+zetony/30xkolonia_3.png		4
+zetony/15xkolonizator_Y.png	1
+zetony/16x_ilosc_5.png		1
