@@ -55,7 +55,7 @@ if [ "$PROCESSING_SCRIPT" == "" ];
     then
 	echo "Missing parameter -d [filename.sh]"
 	echo "Data available:"
-	ls $DATA_DIR/coordinates/*sh|rev|cut -f1 -d"/"|rev
+	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
 	help
 	exit
 fi

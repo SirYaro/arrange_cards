@@ -4,7 +4,7 @@
 
 merge(){
 
-source "$DATA_DIR/coordinates/$PROCESSING_SCRIPT"
+source "$DATA_DIR/scripts/$PROCESSING_SCRIPT"
 
 }
 
