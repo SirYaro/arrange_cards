@@ -6,7 +6,7 @@ DATA_DIR="$SCRIPT_DIR/arrange_data/"
 source $SCRIPT_DIR/arrange_func.sh
 
 # czytam parametry wywolania
-while getopts i:o:f:c:d: option
+while getopts i:o:f:c:d:b: option
 do
     case "${option}"
     in
@@ -15,6 +15,7 @@ do
 	f) FRAME=${OPTARG};;
 	c) COUNT=${OPTARG};;
 	d) PROCESSING_SCRIPT=${OPTARG};;
+	b) BACKGROUND=${OPTARG};;
     esac
 done
 
@@ -60,6 +61,12 @@ if [ "$PROCESSING_SCRIPT" == "" ];
 	exit
 fi
 
+if [ "$BACKGROUND" == "" ];
+    then
+	echo "Missing parameter -b [color]"
+	echo "Using default white"
+	BACKGROUD="FFFFFF"
+fi
 
 if [ ! -f $INPUT ]; then
     echo "input file \"$INPUT\" not found!"
