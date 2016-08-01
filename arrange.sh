@@ -6,7 +6,7 @@ DATA_DIR="$SCRIPT_DIR/arrange_data/"
 source $SCRIPT_DIR/arrange_func.sh
 
 # czytam parametry wywolania
-while getopts i:o:f:c:d:b: option
+while getopts i:o:f:c:d:b:x: option
 do
     case "${option}"
     in
@@ -16,6 +16,7 @@ do
 	c) COUNT=${OPTARG};;
 	d) PROCESSING_SCRIPT=${OPTARG};;
 	b) BACKGROUND=${OPTARG};;
+	x) DEBUG=${OPTARG};;
     esac
 done
 
@@ -65,7 +66,16 @@ if [ "$BACKGROUND" == "" ];
     then
 	echo "Missing parameter -b [color]"
 	echo "Using default white"
-	BACKGROUD="FFFFFF"
+	BACKGROUND="FFFFFF"
+fi
+
+if [ "$DEBUG" == "1" ];
+    then
+	echo "Writing debug to arrange.log."
+	rm -f arrange.log
+	exec 19>arrange.log
+	export BASH_XTRACEFD=19
+	set -x
 fi
 
 if [ ! -f $INPUT ]; then
@@ -73,12 +83,11 @@ if [ ! -f $INPUT ]; then
     exit 1
 fi
 
-
-
-
+BACKGROUND=`tr  '[:lower:]' '[:upper:]' <<< $BACKGROUND`
 files_list=""
 clean_bg
 
+echo "Populating file list."
 readarray data < $INPUT				#plik do macierzy
 NUM=`echo "${#data[@]}"`			#ilosc linii w pliku
 
@@ -90,25 +99,32 @@ for linia_nr in `seq 0 $(($NUM-1))`;do
     REPEAT=`echo "${array[1]}"`			#ilosc powtórzen
     
     for nr in `seq 1 $REPEAT`; do
-	files_list="$files_list $FILE"		#budowa listy plików
+	if [ "$files_list" == "" ]; then 		#jak lista pusta nie zrobi ; na początku
+		files_list="$FILE"			#budowa listy plików
+	else
+		files_list="$files_list;$FILE"		#budowa listy plików
+	fi
+	
     done
 done
-files_num=`echo $files_list| wc -w`		#ilosc plików
-pages=$(round $files_num)			#ilosc stron do generacji
+echo "Populating file list finished."
+
+files_num=`echo $files_list|sed 's/[^;]//g'| wc -c`	#ilosc plików
+pages=$(round $files_num)				#ilosc stron do generacji
 echo "Creating $pages page(s), max $COUNT images each "
 
 start=1;end=$COUNT
 for page in `seq 1 $pages`;do
-    files=`echo $files_list|cut -f$start-$end -d" "`	#wycinam n-ty set 9ciu kart
-    echo "Processing page $page"
-    merge "$files $page"				#generacja grafiki
+    files=`echo $files_list|cut -f$start-$end -d";"`	#wycinam n-ty set $COUNT grafik
+    echo "Processing page $page of $pages."
+    merge "${files};${page}"				#generacja grafiki
     clean_bg						#czysci tło
     start=$((start+COUNT))
     end=$((end+COUNT))
 done
 
-echo "Generating pdf file"
-convert p*png -page a4 $OUTPUT
+echo "Generating $OUTPUT file."
+convert page_*.png -page a4 $OUTPUT
+rm -f page_*.png
 
 echo "Done."
-

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 
-page=`echo $1|rev|cut -f1 -d" "|rev`
-pliki=`echo $1|rev|cut -d" " -f2-|rev`
+page=`echo $1|rev|cut -f1 -d";"|rev`
+pliki=`echo $1|rev|cut -d";" -f2-|rev`
 
 X_def=166
 X=$X_def
-Y=139
+Y=239
 file_no=1
 
 files_in_row=8
@@ -14,7 +14,7 @@ rows=18
 
 for r in `seq 1 $rows`; do
     for i in `seq 1 $files_in_row`; do
-	plik=`echo $pliki|cut -f$file_no -d" "`; 
+	plik=`echo $pliki|cut -f$file_no -d";"`; 
 	if [ "$plik" != "" ]; then 
 	    echo "Processing file $plik..."
 	    convert -resize 55% $plik /tmp/plik
@@ -27,5 +27,5 @@ for r in `seq 1 $rows`; do
 done
 
 
-composite -verbose  -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png p$page.png
-convert -flop p$page.png p$page.png
+composite -verbose  -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}.png
+convert -flop page_${page}.png page_${page}.png
