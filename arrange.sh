@@ -56,7 +56,7 @@ fi
 if [ "$PROCESSING_SCRIPT" == "" ];
     then
 	echo "Missing parameter -s [script.sh]"
-	echo "Data available:"
+	echo "Scripts available:"
 	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
 	help
 	exit
@@ -111,7 +111,7 @@ echo "Populating file list finished."
 
 files_num=`echo $files_list|sed 's/[^;]//g'| wc -c`	#ilosc plików
 pages=$(round $files_num)				#ilosc stron do generacji
-echo "Creating $pages page(s), max $COUNT images each "
+echo "Creating $pages page(s), max $COUNT images on each page."
 
 start=1;end=$COUNT
 for page in `seq 1 $pages`;do
