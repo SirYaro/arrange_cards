@@ -24,7 +24,7 @@ help()
     -o [filename.pdf] output pdf filename
     -f [filename.png] frame filename
     -c [count]        files count per page
-    -d [filename.sh]  processing script
+    -s [filename.sh]  processing script
     -b [RGB color]    background color (ex. -b FFAAC0 )
     -x [1]            enable debug
     "

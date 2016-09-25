@@ -6,7 +6,7 @@ DATA_DIR="$SCRIPT_DIR/arrange_data/"
 source $SCRIPT_DIR/arrange.inc
 
 # czytam parametry wywolania
-while getopts i:o:f:c:d:b:x: option
+while getopts i:o:f:c:s:b:x: option
 do
     case "${option}"
     in
@@ -14,7 +14,7 @@ do
 	i) INPUT=${OPTARG};;
 	f) FRAME=${OPTARG};;
 	c) COUNT=${OPTARG};;
-	d) PROCESSING_SCRIPT=${OPTARG};;
+	s) PROCESSING_SCRIPT=${OPTARG};;
 	b) BACKGROUND=${OPTARG};;
 	x) DEBUG=${OPTARG};;
     esac
@@ -55,7 +55,7 @@ fi
 
 if [ "$PROCESSING_SCRIPT" == "" ];
     then
-	echo "Missing parameter -d [filename.sh]"
+	echo "Missing parameter -s [script.sh]"
 	echo "Data available:"
 	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
 	help
