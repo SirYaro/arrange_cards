@@ -3,7 +3,7 @@
 SCRIPT_DIR=`dirname "$(readlink -f "$0")"`
 DATA_DIR="$SCRIPT_DIR/arrange_data/"
 
-source $SCRIPT_DIR/arrange_func.sh
+source $SCRIPT_DIR/arrange.inc
 
 # czytam parametry wywolania
 while getopts i:o:f:c:d:b:x: option
