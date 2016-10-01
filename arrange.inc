@@ -27,6 +27,7 @@ help()
     -s [filename.sh]  processing script
     -b [RGB color]    background color (ex. -b FFAAC0 )
     -x [1]            enable debug
+    -k [0|1]          keep temporary files
     "
 }
 

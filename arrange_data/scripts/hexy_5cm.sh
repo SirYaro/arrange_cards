@@ -35,4 +35,4 @@ for r in `seq 1 $rows`; do
 done
 
 
-composite -verbose  -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}.png
+composite -verbose -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png

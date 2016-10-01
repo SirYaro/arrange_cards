@@ -2,11 +2,12 @@
 
 SCRIPT_DIR=`dirname "$(readlink -f "$0")"`
 DATA_DIR="$SCRIPT_DIR/arrange_data/"
+TIMESTAMP=`date +%s`
 
 source $SCRIPT_DIR/arrange.inc
 
 # czytam parametry wywolania
-while getopts i:o:f:c:s:b:x: option
+while getopts i:o:f:c:s:b:x:k: option
 do
     case "${option}"
     in
@@ -17,6 +18,7 @@ do
 	s) PROCESSING_SCRIPT=${OPTARG};;
 	b) BACKGROUND=${OPTARG};;
 	x) DEBUG=${OPTARG};;
+	k) KEEP_TEMPORARY=${OPTARG};;
     esac
 done
 
@@ -78,6 +80,13 @@ if [ "$DEBUG" == "1" ];
 	set -x
 fi
 
+if [ "$KEEP_TEMPORARY" == "" ];
+    then
+	echo "Missing parameter -k [0|1]"
+	KEEP_TEMPORARY=0
+fi
+
+
 if [ ! -f $INPUT ]; then
     echo "input file \"$INPUT\" not found!"
     exit 1
@@ -124,7 +133,9 @@ for page in `seq 1 $pages`;do
 done
 
 echo "Generating $OUTPUT file."
-convert page_*.png -page a4 $OUTPUT
-rm -f page_*.png
+convert page_*_${TIMESTAMP}.png -page a4 $OUTPUT
+if [ $KEEP_TEMPORARY -eq 0 ]; then
+    rm -f page_*_${TIMESTAMP}.png
+fi
 
 echo "Done."
