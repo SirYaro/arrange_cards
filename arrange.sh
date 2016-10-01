@@ -133,7 +133,7 @@ for page in `seq 1 $pages`;do
 done
 
 echo "Generating $OUTPUT file."
-convert page_*_${TIMESTAMP}.png -page a4 $OUTPUT
+convert -units PixelsPerInch -density 300 -define pdf:fit-page=A4 page_*_${TIMESTAMP}.png $OUTPUT
 if [ $KEEP_TEMPORARY -eq 0 ]; then
     rm -f page_*_${TIMESTAMP}.png
 fi
