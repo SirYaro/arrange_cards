@@ -1,6 +1,15 @@
 #!/bin/bash
 
 
+# trap ctrl-c and call ctrl_c()
+trap ctrl_c INT
+
+function ctrl_c() {
+        echo "** Trapped CTRL-C **"
+	echo " Exiting"
+	exit 0
+}
+
 
 merge(){
 
@@ -23,10 +32,15 @@ help()
     -i [filename.txt] input txt filename
     -o [filename.pdf] output pdf filename
     -f [filename.png] frame filename
-    -c [count]        files count per page
-    -s [filename.sh]  processing script
+    -c [columns]      will arrange object in that many columns
+    -r [rows]         will arrange object in that many rows
+    -w [width]        resize to width (add ! to enforce ex -w 762!)
+    -h [height]       resize to height
+    -x [xpixels]      start x coordinates (default 116)
+    -y [ypixels]      start x coordinates (default 116)
+    -s [filename.sh]  processing script (default default.sh)
     -b [RGB color]    background color (ex. -b FFAAC0 )
-    -x [1]            enable debug
+    -d [1]            enable debug to arrange.log file
     -k [0|1]          keep temporary files
     "
 }

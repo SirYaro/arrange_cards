@@ -3,26 +3,38 @@
 SCRIPT_DIR=`dirname "$(readlink -f "$0")"`
 DATA_DIR="$SCRIPT_DIR/arrange_data/"
 TIMESTAMP=`date +%s`
+ROW=0
+COLUMN=0
+START_X=166
+START_Y=166
+
 
 source $SCRIPT_DIR/arrange.inc
 
 # czytam parametry wywolania
-while getopts i:o:f:c:s:b:x:k: option
+while getopts i:o:f:c:r:s:b:d:k:h:w:x:y: option
 do
     case "${option}"
     in
 	o) OUTPUT=${OPTARG};;
 	i) INPUT=${OPTARG};;
 	f) FRAME=${OPTARG};;
-	c) COUNT=${OPTARG};;
+	c) COLUMN=${OPTARG};;
+	r) ROW=${OPTARG};;
 	s) PROCESSING_SCRIPT=${OPTARG};;
 	b) BACKGROUND=${OPTARG};;
-	x) DEBUG=${OPTARG};;
+	d) DEBUG=${OPTARG};;
 	k) KEEP_TEMPORARY=${OPTARG};;
+	h) HEIGHT=${OPTARG};;
+	w) WIDTH=${OPTARG};;
+	x) START_X=${OPTARG};;
+	y) START_Y=${OPTARG};;
+
     esac
 done
 
 
+COUNT=$(($ROW * $COLUMN))
 # sprawdzam poprawnosc i ew braki w parametrach
 if [ "$INPUT" == "" ];
     then
@@ -48,9 +60,17 @@ if [ "$FRAME" == "" ];
 	exit
 fi
 
-if [ "$COUNT" == "" ];
+if [ $COUNT -eq 0 ];
     then
-	echo "Missing parameter -c [count]"
+	echo "Unspecified ROW or/and COLUMN parameter -c [columns], -r [rows]"
+	re='^[0-9]+$'
+	if ! [[ $ROW =~ $re ]] ; then
+	   echo "error: ROW is not a number"
+	fi
+	if ! [[ $COLUMN =~ $re ]] ; then
+	   echo "error: COLUMN is not a number"
+	fi
+
 	help
 	exit
 fi
@@ -61,7 +81,9 @@ if [ "$PROCESSING_SCRIPT" == "" ];
 	echo "Scripts available:"
 	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
 	help
-	exit
+	echo ''
+	echo "using \"default.sh\""
+	PROCESSING_SCRIPT='default.sh'
 fi
 
 if [ "$BACKGROUND" == "" ];
@@ -84,6 +106,16 @@ if [ "$KEEP_TEMPORARY" == "" ];
     then
 	echo "Missing parameter -k [0|1]"
 	KEEP_TEMPORARY=0
+fi
+
+if [ "$HEIGHT" != "" ];
+    then
+	RESIZE=1
+fi
+
+if [ "$WIDTH" != "" ];
+    then
+	RESIZE=1
 fi
 
 
