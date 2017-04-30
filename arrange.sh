@@ -36,22 +36,22 @@ if [ ! -f $INPUT ]; then
     exit 1
 fi
 
-BACKGROUND=`tr  '[:lower:]' '[:upper:]' <<< ${BACKGROUND}`
+BACKGROUND=$(tr  '[:lower:]' '[:upper:]' <<< ${BACKGROUND})
 files_list=""
 clean_bg
 
 echo "Populating file list."
 readarray data < $INPUT				#plik do macierzy
-NUM=`echo "${#data[@]}"`			#ilosc linii w pliku
+NUM=$(echo "${#data[@]}")			#ilosc linii w pliku
 
 for linia_nr in `seq 0 $(($NUM-1))`;do
 
-    linia=`echo "${data[linia_nr]}"|xargs`	#trim linijki
+    linia=$(echo "${data[linia_nr]}"|xargs)	#trim linijki
     IFS=' ' read -r -a array <<< "$linia"	#explode
-    FILE=`echo "${array[0]}"`			#nazwa pliku (path)
-    REPEAT=`echo "${array[1]}"`			#ilosc powtórzen
+    FILE=$(echo "${array[0]}")			#nazwa pliku (path)
+    REPEAT=$(echo "${array[1]}")			#ilosc powtórzen
     
-    for nr in `seq 1 $REPEAT`; do
+    for nr in $(seq 1 $REPEAT); do
 	if [ "$files_list" == "" ]; then 		#jak lista pusta nie zrobi ; na początku
 		files_list="$FILE"			#budowa listy plików
 	else
@@ -62,13 +62,13 @@ for linia_nr in `seq 0 $(($NUM-1))`;do
 done
 echo "Populating file list finished."
 
-all_files_num=`echo $files_list|sed 's/[^;]//g'| wc -c`	#ilosc plików
+all_files_num=$(echo $files_list|sed 's/[^;]//g'| wc -c)	#ilosc plików
 pages=$(round $all_files_num)				#ilosc stron do generacji
 echo "Creating $pages page(s), max $COUNT images on each page."
 
 start=1;end=$COUNT
-for page in `seq 1 $pages`;do
-    files=`echo $files_list|cut -f$start-$end -d";"`	#wycinam n-ty set $COUNT grafik
+for page in $(seq 1 $pages);do
+    files=$(echo $files_list|cut -f$start-$end -d";")	#wycinam n-ty set $COUNT grafik
     echo "Processing page $page of $pages."
     generate "${files};${page}"				#generacja grafiki
     clean_bg						#czysci tło

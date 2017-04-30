@@ -20,7 +20,7 @@ source "$DATA_DIR/scripts/$PROCESSING_SCRIPT"
 function clean_bg()
 {
 echo "Background color set to ${BACKGROUND}."
-BG_FILE_NAME="$DATA_DIR/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
+BG_FILE_NAME="$DATA_DIR/background/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
 if [ ! -e "${BG_FILE_NAME}" ]; then
     convert xc:white -page A4 /tmp/myout.pdf										#create empty white pdf
     if [ "${ORIENTATION}" == "L" ]; then 

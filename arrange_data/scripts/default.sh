@@ -12,7 +12,7 @@ Y=0
 files_in_row=${COLUMN}
 rows=${ROW}
 
-for r in `seq 1 ${rows}`; do
+for r in $(seq 1 ${rows}); do
     for c in $(seq 1 ${files_in_row}); do
 	ts=$(date +%s%N) 
 	FILE_NUMBER=$((FILE_NUMBER + 1))
