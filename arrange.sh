@@ -1,122 +1,34 @@
 #!/bin/bash
 
+# Req: ImageMagic 6.8.8-8 +
+
+
 SCRIPT_DIR=`dirname "$(readlink -f "$0")"`
 DATA_DIR="$SCRIPT_DIR/arrange_data/"
 TIMESTAMP=`date +%s`
+RESIZE=0
 ROW=0
 COLUMN=0
 START_X=166
 START_Y=166
-
+DEFAULT_GAP=1
+MARKER_X=0
+MARKER_Y=0
+MARKER_ENABLED=0
+FILE_NUMBER=0
+ttt=0
+PAGE_SIZE=A4
+ORIENTATION=P
+BACKGROUND="FFFFFF"
+RESIZE=0
+RESIZE_PERCENT=0
 
 source $SCRIPT_DIR/arrange.inc
-
-# czytam parametry wywolania
-while getopts i:o:f:c:r:s:b:d:k:h:w:x:y: option
-do
-    case "${option}"
-    in
-	o) OUTPUT=${OPTARG};;
-	i) INPUT=${OPTARG};;
-	f) FRAME=${OPTARG};;
-	c) COLUMN=${OPTARG};;
-	r) ROW=${OPTARG};;
-	s) PROCESSING_SCRIPT=${OPTARG};;
-	b) BACKGROUND=${OPTARG};;
-	d) DEBUG=${OPTARG};;
-	k) KEEP_TEMPORARY=${OPTARG};;
-	h) HEIGHT=${OPTARG};;
-	w) WIDTH=${OPTARG};;
-	x) START_X=${OPTARG};;
-	y) START_Y=${OPTARG};;
-
-    esac
-done
+source $SCRIPT_DIR/opts.inc
 
 
-COUNT=$(($ROW * $COLUMN))
-# sprawdzam poprawnosc i ew braki w parametrach
-if [ "$INPUT" == "" ];
-    then
-	echo "Missing parameter -i [filename.txt]"
-	echo "Currently only files in a current directory are supported"
-	help
-	exit
-fi
 
-if [ "$OUTPUT" == "" ];
-    then
-	echo "Missing parameter -o [filename.pdf]"
-	help
-	exit
-fi
-
-if [ "$FRAME" == "" ];
-    then
-	echo "Missing parameter -f [filename.png]"
-	echo "Frames available:"
-	ls $DATA_DIR/*png|rev|cut -f1 -d"/"|rev
-	help
-	exit
-fi
-
-if [ $COUNT -eq 0 ];
-    then
-	echo "Unspecified ROW or/and COLUMN parameter -c [columns], -r [rows]"
-	re='^[0-9]+$'
-	if ! [[ $ROW =~ $re ]] ; then
-	   echo "error: ROW is not a number"
-	fi
-	if ! [[ $COLUMN =~ $re ]] ; then
-	   echo "error: COLUMN is not a number"
-	fi
-
-	help
-	exit
-fi
-
-if [ "$PROCESSING_SCRIPT" == "" ];
-    then
-	echo "Missing parameter -s [script.sh]"
-	echo "Scripts available:"
-	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
-	help
-	echo ''
-	echo "using \"default.sh\""
-	PROCESSING_SCRIPT='default.sh'
-fi
-
-if [ "$BACKGROUND" == "" ];
-    then
-	echo "Missing parameter -b [color]"
-	echo "Using default white"
-	BACKGROUND="FFFFFF"
-fi
-
-if [ "$DEBUG" == "1" ];
-    then
-	echo "Writing debug to arrange.log."
-	rm -f arrange.log
-	exec 19>arrange.log
-	export BASH_XTRACEFD=19
-	set -x
-fi
-
-if [ "$KEEP_TEMPORARY" == "" ];
-    then
-	echo "Missing parameter -k [0|1]"
-	KEEP_TEMPORARY=0
-fi
-
-if [ "$HEIGHT" != "" ];
-    then
-	RESIZE=1
-fi
-
-if [ "$WIDTH" != "" ];
-    then
-	RESIZE=1
-fi
+####################################################
 
 
 if [ ! -f $INPUT ]; then
@@ -124,7 +36,7 @@ if [ ! -f $INPUT ]; then
     exit 1
 fi
 
-BACKGROUND=`tr  '[:lower:]' '[:upper:]' <<< $BACKGROUND`
+BACKGROUND=`tr  '[:lower:]' '[:upper:]' <<< ${BACKGROUND}`
 files_list=""
 clean_bg
 
@@ -150,15 +62,15 @@ for linia_nr in `seq 0 $(($NUM-1))`;do
 done
 echo "Populating file list finished."
 
-files_num=`echo $files_list|sed 's/[^;]//g'| wc -c`	#ilosc plików
-pages=$(round $files_num)				#ilosc stron do generacji
+all_files_num=`echo $files_list|sed 's/[^;]//g'| wc -c`	#ilosc plików
+pages=$(round $all_files_num)				#ilosc stron do generacji
 echo "Creating $pages page(s), max $COUNT images on each page."
 
 start=1;end=$COUNT
 for page in `seq 1 $pages`;do
     files=`echo $files_list|cut -f$start-$end -d";"`	#wycinam n-ty set $COUNT grafik
     echo "Processing page $page of $pages."
-    merge "${files};${page}"				#generacja grafiki
+    generate "${files};${page}"				#generacja grafiki
     clean_bg						#czysci tło
     start=$((start+COUNT))
     end=$((end+COUNT))
