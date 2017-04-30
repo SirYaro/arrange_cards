@@ -46,8 +46,8 @@ function usage()
     -f [filename.png] & overlay image
     -s [filename.sh] & processing script (default default.sh)
 
-    -c [columns] & will arrange object in that many columns
-    -r [rows] & will arrange object in that many rows
+    -c [columns] & will arrange images in that many columns
+    -r [rows] & will arrange images in that many rows
 
     -w [width] & resize to width (add ! to enforce ex -w 762!)
     -h [height] & resize to height
