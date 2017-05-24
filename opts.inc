@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # czytam parametry wywolania
-SHORTOPTS="i:o:f:c:r:s:b:d:k:h:w:x:y:g:p:"
-LONGOPTS="mx:,my:,help,status,landscape,debug:gap:page:"
+SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:"
+LONGOPTS="mx:,my:,help,status,landscape,reverse,debug,keep,gap:page:"
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 #PARSED_OPTIONS=$(getopt -n "$0" -o $SHORTOPTS --long "$LONGOPTS"  -- "$@")
@@ -26,6 +26,12 @@ while true; do
             ;;
       --landscape)
             ORIENTATION='L'
+            ;;
+      --reverse)
+            REVERSE=1
+            ;;
+      --keep)
+            KEEP_TEMPORARY=1
             ;;
       --page)
             PAGE_SIZE=`tr  '[:lower:]' '[:upper:]' <<< ${2}`
@@ -64,12 +70,12 @@ while true; do
          shift
          ;;
       -d|--debug)
-         DEBUG="$2"
-         shift
+	 DEBUG=1
+         #DEBUG="$2"
+         #shift
          ;;
       -k)
-         KEEP_TEMPORARY="$2"
-         shift
+         KEEP_TEMPORARY=1
          ;;
       -h)
 	    HEIGHT="$2"
@@ -127,7 +133,7 @@ if [ "$INPUT" == "" ];
     then
 	echo "Missing parameter -i [filename.txt]"
 	echo "Currently only files in a current directory are supported"
-	usage
+	#usage
 	echo "Using default file arrange.txt"
 	INPUT="arrange.txt"
 	#exit

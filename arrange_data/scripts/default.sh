@@ -19,18 +19,27 @@ for r in $(seq 1 ${rows}); do
 	plik=$(echo ${pliki}|cut -f${file_no} -d";"); 
 	if [ "${plik}" != "" ]; then 
 	    echo -n "Processing file ${plik}..."
+	    cp -f ${plik} /tmp/plik
 	    if [ $RESIZE -gt 0 ]; then
 		if [ $RESIZE -eq 1 ]; then
-		    convert -resize ${WIDTH}x${HEIGHT} $plik /tmp/plik
+		    convert -resize ${WIDTH}x${HEIGHT} /tmp/plik /tmp/plik
 		elif [ $RESIZE -eq 2 ]; then
-		    convert -resize ${RESIZE_PERCENT}% $plik /tmp/plik
+		    convert -resize ${RESIZE_PERCENT}% /tmp/plik /tmp/plik
 		fi
-		composite -verbose  -geometry +$((START_X + X))+$((START_Y + Y))  /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		
+		if [ ${REVERSE} -eq 1 ]; then
+		    convert -flop /tmp/plik /tmp/plik		#REWERS
+		fi
+		
+		composite -verbose  -geometry +$((START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		SZER=$(identify -format '%w' /tmp/plik) 
 		WYS=$(identify -format '%h' /tmp/plik)
 		rm -f /tmp/plik
 	    else
-	    	composite -verbose  -geometry +$((START_X + X))+$((START_Y + Y))  ${plik} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		if [ ${REVERSE} -eq 1 ]; then
+		    convert -flop /tmp/plik /tmp/plik		#REWERS
+		fi
+	    	composite -verbose  -geometry +$((START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		SZER=$(identify -format '%w' ${plik}) 
 		WYS=$(identify -format '%h' ${plik})
 	    fi
@@ -67,5 +76,8 @@ for r in $(seq 1 ${rows}); do
 done
 
 echo -en "\nGenerating pdf page.\n"
-composite -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1
+composite -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
+if [ ${REVERSE} -eq 1 ]; then
+	convert -flop page_${page}_${TIMESTAMP}.png page_${page}_${TIMESTAMP}.png	#REWERS
+fi
 rm -f /tmp/montage.png

@@ -36,37 +36,39 @@ cp -f "${BG_FILE_NAME}" /tmp/montage.png
 function usage()
 {
   cat <<EOF | column -s\& -t
-
+    &
     --help & show this output
     -v|--version & show version information
     --status & show available overlays and scripts
-
+    &
     -i [filename.txt] & input txt filename (default arrange.txt)
     -o [filename.pdf] & output pdf filename
     -f [filename.png] & overlay image
-    -s [filename.sh] & processing script (default default.sh)
-
+    -s [filename.sh] & processing script (default default.sh, most options works with this script only)
+    &
     -c [columns] & will arrange images in that many columns
     -r [rows] & will arrange images in that many rows
-
+    &
     -w [width] & resize to width (add ! to enforce ex -w 762!)
     -h [height] & resize to height
     -p [percent] & resize to given % ratio
-
+    &
     -x [xpixels] & start X coordinates (default 116)
     -y [ypixels] & start X coordinates (default 116)
     -g [pixels] & distance (gap) between images (default 1)
-
+    &
     --mx [pixels] & Add cut marker and shift it inwards image by [pixels] distance on X axis
     --my [pixels] & Add cut marker and shift it inwards image by [pixels] distance on Y axis
-
+    &
     --landscape & Set landscape orientation
     --page [page size] & set page size (default A4)
-
+    &
+    --reverse & arrange items from right to left in order to made matching back side
+    &
     -b [RGB color] & background color (ex. -b FFAAC0 )
-    -d|--debug [1] & write debug to arrange.log file
-    -k [0|1] & keep temporary files
-
+    -d|--debug & write debug to arrange.log file
+    -k|--keep & keep temporary files
+    &
 EOF
 }
 
