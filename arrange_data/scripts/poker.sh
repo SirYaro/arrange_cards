@@ -17,4 +17,4 @@ plik=`echo $pliki|cut -f8 -d";"`; if [ "$plik" != "" ]; then composite -verbose 
 plik=`echo $pliki|cut -f9 -d";"`; if [ "$plik" != "" ]; then composite -verbose  -geometry +1640+2216 $plik /tmp/montage.png /tmp/montage.png;fi
 
 
-composite -verbose -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png
+composite -verbose -geometry +0+0 $DATA_DIR/overlays/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png

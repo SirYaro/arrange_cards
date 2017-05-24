@@ -27,5 +27,5 @@ for r in `seq 1 $rows`; do
 done
 
 
-composite -verbose -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png
+composite -verbose -geometry +0+0 $DATA_DIR/overlays/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png
 convert -flop page_${page}_${TIMESTAMP}.png page_${page}_${TIMESTAMP}.png

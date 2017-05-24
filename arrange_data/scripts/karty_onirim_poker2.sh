@@ -24,4 +24,4 @@ plik=`echo $pliki|cut -f8 -d";"`; if [ "$plik" != "" ]; then resize;composite -v
 plik=`echo $pliki|cut -f9 -d";"`; if [ "$plik" != "" ]; then resize;composite -verbose  -geometry +1648+2225 $plik /tmp/montage.png /tmp/montage.png;fi
 
 
-composite -verbose -geometry +0+0 $DATA_DIR/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png
+composite -verbose -geometry +0+0 $DATA_DIR/overlays/$FRAME /tmp/montage.png page_${page}_${TIMESTAMP}.png
