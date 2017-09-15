@@ -68,7 +68,7 @@ pages=$(round $all_files_num)				#ilosc stron do generacji
 echo "Creating $pages page(s), max $COUNT images on each page."
 
 start=1;end=$COUNT
-for page in $(seq 1 $pages);do
+for page in $(seq -w 1 $pages);do
     files=$(echo $files_list|cut -f$start-$end -d";")	#wycinam n-ty set $COUNT grafik
     echo "Processing page $page of $pages."
     generate "${files};${page}"				#generacja grafiki
