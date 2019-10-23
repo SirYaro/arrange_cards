@@ -2,7 +2,7 @@
 
 # czytam parametry wywolania
 SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:m:"
-LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gap:page:"
+LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gap:,page:,rotate:"
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 #PARSED_OPTIONS=$(getopt -n "$0" -o $SHORTOPTS --long "$LONGOPTS"  -- "$@")
@@ -122,6 +122,10 @@ while true; do
 	 MARKER_ENABLED=1
          shift
          ;;
+      --rotate)
+	 ROTATE="$2"
+	 shift
+	 ;;
       --)
          shift
          break
@@ -153,6 +157,15 @@ if [ "$OUTPUT" == "" ];
 	#usage
 	exit
 fi
+
+if ([[ $MARKER_X == ?(-)+([0-9]) ]] && [[ $MARKER_Y == ?(-)+([0-9]) ]]);
+    then 
+    echo -ne ""
+else
+    echo "Both marker values have to be intiger"
+    exit
+fi
+
 
 if [ "$FRAME" == "" ];
     then

@@ -71,7 +71,7 @@ echo "Creating $pages page(s), max $COUNT images on each page."
 start=1;end=$COUNT
 for page in $(seq -w 1 $pages);do
     files=$(echo $files_list|cut -f$start-$end -d";")	#wycinam n-ty set $COUNT grafik
-    echo "Processing page $page of $pages."
+    echo "Processing page ${page} of ${pages}."
     generate "${files};${page}"				#generacja grafiki
     clean_bg						#czysci tło
     start=$((start+COUNT))

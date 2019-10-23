@@ -53,6 +53,7 @@ function usage()
     -w [width] & resize to width (add ! to enforce ex -w 762!)
     -h [height] & resize to height
     -p [percent] & resize to given % ratio
+    --rotate [degrees] & rotate image
     &
     -x [xpixels] & start X coordinates (default 116)
     -y [ypixels] & start X coordinates (default 116)
