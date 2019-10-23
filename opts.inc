@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # czytam parametry wywolania
-SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:"
-LONGOPTS="mx:,my:,help,status,landscape,reverse,debug,keep,gap:page:"
+SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:m:"
+LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gap:page:"
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 #PARSED_OPTIONS=$(getopt -n "$0" -o $SHORTOPTS --long "$LONGOPTS"  -- "$@")
@@ -22,6 +22,10 @@ while true; do
     case $1 in
       --help)
             usage
+            exit 0
+            ;;
+      --list)
+            list_files
             exit 0
             ;;
       --landscape)
@@ -104,6 +108,10 @@ while true; do
          GAP="$2"
          shift
          ;;
+      -m)
+	 MARKER="$2"
+         shift
+         ;;
       --mx)
          MARKER_X="$2"
 	 MARKER_ENABLED=1
@@ -141,22 +149,22 @@ fi
 
 if [ "$OUTPUT" == "" ];
     then
-	echo "Missing parameter -o [filename.pdf]"
-	usage
+	echo "Missing parameter -o [filename.pdf]. Check --help."
+	#usage
 	exit
 fi
 
 if [ "$FRAME" == "" ];
     then
-	echo "Missing parameter -f [filename.png]"
-	show_overlays
-	usage
+	echo "Missing parameter -f [filename.png]. Check --help."
+	#show_overlays
+	#usage
 	exit
 fi
 
 if [ $COUNT -eq 0 ];
     then
-	echo "Unspecified ROW or/and COLUMN parameter -c [columns], -r [rows]"
+	echo "Unspecified ROW or/and COLUMN parameter -c [columns], -r [rows]. Check --help."
 	re='^[0-9]+$'
 	if ! [[ $ROW =~ $re ]] ; then
 	   echo "error: ROW is not a number"
@@ -165,15 +173,15 @@ if [ $COUNT -eq 0 ];
 	   echo "error: COLUMN is not a number"
 	fi
 
-	usage
+	#usage
 	exit
 fi
 
 if [ "$PROCESSING_SCRIPT" == "" ];
     then
-	echo "Missing parameter -s [script.sh]"
-	show_scripts
-	usage
+	echo "Missing parameter -s [script.sh]. Check --help."
+	#show_scripts
+	#usage
 	echo ''
 	echo "using \"default.sh\""
 	PROCESSING_SCRIPT='default.sh'

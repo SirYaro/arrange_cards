@@ -26,7 +26,7 @@ if [ ! -e "${BG_FILE_NAME}" ]; then
     if [ "${ORIENTATION}" == "L" ]; then 
 	convert /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
     fi
-    convert -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
+    convert -colorspace RGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
     #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
     convert "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
 fi
@@ -48,6 +48,7 @@ function usage()
     &
     -c [columns] & will arrange images in that many columns
     -r [rows] & will arrange images in that many rows
+    -m [markername.png] & use specified marker
     &
     -w [width] & resize to width (add ! to enforce ex -w 762!)
     -h [height] & resize to height
@@ -68,6 +69,7 @@ function usage()
     -b [RGB color] & background color (ex. -b FFAAC0 )
     -d|--debug & write debug to arrange.log file
     -k|--keep & keep temporary files
+    --list & list files available for this script
     &
 EOF
 }
@@ -91,3 +93,16 @@ function show_scripts()
 	echo ""
 }
 
+function show_markers()
+{
+	echo "Markers available:"
+	ls $DATA_DIR/imgs/*png|rev|cut -f1 -d"/"|rev
+	echo ""
+}
+
+function list_files()
+{
+    show_overlays
+    show_scripts
+    show_markers
+}
