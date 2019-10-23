@@ -47,10 +47,16 @@ for r in $(seq 1 ${rows}); do
 	
 	#MARKERS
 	if [ $MARKER_ENABLED -eq 1 ]; then
-	    composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1		#TOP LEFT CORNER
-	    composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#TOP RIGHT CORNER
-	    composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM LEFT CORNER
-	    composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM RIGHT CORNER
+	    #composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1		#TOP LEFT CORNER
+	    #composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#TOP RIGHT CORNER
+	    #composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM LEFT CORNER
+	    #composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM RIGHT CORNER
+	    convert -verbose /tmp/montage.png \
+		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 + MARKER_Y)) -composite \
+		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 + MARKER_Y)) -composite \
+		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 - MARKER_Y + WYS)) -composite \
+		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 - MARKER_Y + WYS)) -composite \
+		/tmp/montage.png > /dev/null 2>&1
 	fi
 	
 	X=$((X + SZER + GAP))
