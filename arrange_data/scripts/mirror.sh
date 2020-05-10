@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 echo ""
-echo "Input file must provide front and back files alternately."
+echo "Input file must provides back and front files alternately."
 echo ""
 
 page=$(echo $1|rev|cut -f1 -d";"|rev)
@@ -12,7 +12,9 @@ file_no=1
 PAGE_W=$(identify -format '%w' /tmp/montage.png) 
 PAGE_H=$(identify -format '%h' /tmp/montage.png) 
 PAGE_CENTER=$((PAGE_W / 2))
-
+if [ -z "$ROTATE" ]; then
+    ROTATE=0
+fi
 
 X=0
 Y=0
