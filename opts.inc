@@ -2,7 +2,7 @@
 
 # czytam parametry wywolania
 SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:m:"
-LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gap:,page:,rotate:"
+LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gapx:,gap:,gx:,gapy:,page:,rotate:,rmup:,rmdown:,rmright:,rmleft:,"
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 #PARSED_OPTIONS=$(getopt -n "$0" -o $SHORTOPTS --long "$LONGOPTS"  -- "$@")
@@ -104,8 +104,29 @@ while true; do
          START_Y="$2"
          shift
          ;;
-      -g|--gap)
+      -g|--gx|--gapx|--gap)
          GAP="$2"
+	 GAPX="$2"
+         shift
+         ;;
+      --gy|--gapy)
+         GAPY="$2"
+         shift
+         ;;
+      --rmup)
+         RMUP="$2"
+         shift
+         ;;
+      --rmdown)
+         RMDOWN="$2"
+         shift
+         ;;
+      --rmright)
+         RMRIGHT="$2"
+         shift
+         ;;
+      --rmleft)
+         RMLEFT="$2"
          shift
          ;;
       -m)
@@ -218,7 +239,7 @@ fi
 
 if [ "$KEEP_TEMPORARY" == "" ];
     then
-	echo "Missing parameter -k [0|1]"
+	#echo "Missing parameter -k [0|1]"
 	KEEP_TEMPORARY=0
 fi
 

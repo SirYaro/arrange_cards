@@ -48,7 +48,6 @@ function usage()
     &
     -c [columns] & will arrange images in that many columns
     -r [rows] & will arrange images in that many rows
-    -m [markername.png] & use specified marker
     &
     -w [width] & resize to width (add ! to enforce ex -w 762!)
     -h [height] & resize to height
@@ -57,8 +56,10 @@ function usage()
     &
     -x [xpixels] & start X coordinates (default 116)
     -y [ypixels] & start X coordinates (default 116)
-    -g [pixels] & distance (gap) between images (default 1)
+    -g|--gapx [pixels] & x axis distance (gap) between images (default 1)
+    --gapy [pixels] & y axis distance (gap) between images (default 1)
     &
+    -m [markername.png] & use specified marker
     --mx [pixels] & Add cut marker and shift it inwards image by [pixels] distance on X axis
     --my [pixels] & Add cut marker and shift it inwards image by [pixels] distance on Y axis
     &
@@ -67,7 +68,10 @@ function usage()
     &
     --reverse & arrange items from right to left in order to made matching back side
     &
-    -b [RGB color] & background color (ex. -b FFAAC0 )
+    --rmup [pixels] & Delete top x pixel lines from the image (doesn't change canvas size)
+    --rmdown [pixels] & Delete bottom x pixel lines from the image  (doesn't change canvas size)
+    &
+    -b [string] & background color or hex cut pattern (ex. -b FFAAC0, -b hex )
     -d|--debug & write debug to arrange.log file
     -k|--keep & keep temporary files
     --list & list files available for this script

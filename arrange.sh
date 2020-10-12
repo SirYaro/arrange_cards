@@ -7,6 +7,9 @@ SCRIPT_DIR=`dirname "$(readlink -f "$0")"`
 DATA_DIR="$SCRIPT_DIR/arrange_data/"
 TIMESTAMP=`date +%s`
 RESIZE=0
+ROTATE=0
+RMUP=0
+RMDOWN=0
 REVERSE=0
 ROW=0
 COLUMN=0
@@ -38,7 +41,8 @@ if [ ! -f $INPUT ]; then
     exit 1
 fi
 
-BACKGROUND=$(tr  '[:lower:]' '[:upper:]' <<< ${BACKGROUND})
+BACKGROUND=$(tr '[:lower:]' '[:upper:]' <<< ${BACKGROUND})
+BACKGROUND=$(tr -d ' ' <<< ${BACKGROUND})
 files_list=""
 clean_bg
 

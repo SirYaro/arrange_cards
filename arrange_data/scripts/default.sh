@@ -20,6 +20,25 @@ for r in $(seq 1 ${rows}); do
 	if [ "${plik}" != "" ]; then 
 	    echo -n "Processing file ${plik}..."
 	    cp -f ${plik} /tmp/plik
+
+	    if [ ${ROTATE} -gt 0 ]; then
+		    convert +profile "*" -rotate ${ROTATE} /tmp/plik /tmp/plik
+	    fi
+
+	    if [ ${RMUP} -gt 0 ]; then
+		SZER=$(identify -format '%w' /tmp/plik) 
+		WYS=$(identify -format '%h' /tmp/plik)
+		convert -gravity north -chop 0x${RMUP} /tmp/plik /tmp/plik	#RM TOP
+		convert -extent ${SZER}x${WYS} -gravity south -background none /tmp/plik /tmp/plik
+	    fi
+	    if [ ${RMDOWN} -gt 0 ]; then
+		SZER=$(identify -format '%w' /tmp/plik) 
+		WYS=$(identify -format '%h' /tmp/plik)
+		convert -gravity south -chop 0x${RMUP} /tmp/plik /tmp/plik	#RM TOP
+		convert -extent ${SZER}x${WYS} -gravity north -background none /tmp/plik /tmp/plik
+	    fi
+
+
 	    if [ ${RESIZE} -gt 0 ]; then
 		if [ $RESIZE -eq 1 ]; then
 		    convert -resize ${WIDTH}x${HEIGHT} /tmp/plik /tmp/plik
@@ -44,13 +63,8 @@ for r in $(seq 1 ${rows}); do
 		WYS=$(identify -format '%h' ${plik})
 	    fi
 	fi
-	
 	#MARKERS
 	if [ $MARKER_ENABLED -eq 1 ]; then
-	    #composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1		#TOP LEFT CORNER
-	    #composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 + MARKER_Y)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#TOP RIGHT CORNER
-	    #composite -verbose  -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM LEFT CORNER
-	    #composite -verbose  -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 - MARKER_Y + WYS)) ${DATA_DIR}/imgs/${MARKER} /tmp/montage.png /tmp/montage.png > /dev/null 2>&1	#BOTTOM RIGHT CORNER
 	    convert -verbose /tmp/montage.png \
 		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 + MARKER_X))+$((START_Y + Y - 25 + MARKER_Y)) -composite \
 		${DATA_DIR}/imgs/${MARKER} -geometry +$((START_X + X - 25 - MARKER_X + SZER))+$((START_Y + Y - 25 + MARKER_Y)) -composite \
@@ -59,7 +73,7 @@ for r in $(seq 1 ${rows}); do
 		/tmp/montage.png > /dev/null 2>&1
 	fi
 	
-	X=$((X + SZER + GAP))
+	X=$((X + SZER + GAPX))
 	
 	echo -ne "\t$(bc<<<"scale=2;${file_no}/${files_number}*100"|cut -f1 -d'.')%"		# % PROGRESS
 	
@@ -67,18 +81,9 @@ for r in $(seq 1 ${rows}); do
 	if [ $file_no -gt $files_number ]; then	# finish if img count on page is < than max
 	    break 2
 	fi
-#	tt=$((($(date +%s%N) - ${ts})/1000000))
-#	ttt=$((tt + ttt))
-#	att=$((ttt / FILE_NUMBER))
-#	fl=$((all_files_num - FILE_NUMBER))
-#	tl=$((att * fl / 6000))
-#	echo -en "\nTime taken: ${tt}ms\n"
-#	echo -en "Total time taken: ${ttt}ms\n"
-#	echo -en ", time left: <${tl} min\n"
-#	echo -en "\t(average time taken per file: ${att}ms)\n"
 	echo -en "\n"
     done
-    Y=$((Y + WYS + GAP));
+    Y=$((Y + WYS + GAPY));
     X=0				# reset x axis
 done
 
