@@ -10,6 +10,10 @@ RESIZE=0
 ROTATE=0
 RMUP=0
 RMDOWN=0
+RMLEFT=0
+RMRIGHT=0
+RMIMG=0
+CROPIMG=0
 REVERSE=0
 ROW=0
 COLUMN=0
@@ -30,7 +34,7 @@ RESIZE_PERCENT=0
 
 source $SCRIPT_DIR/arrange.inc
 source $SCRIPT_DIR/opts.inc
-
+mkdir /tmp/1/
 
 
 ####################################################

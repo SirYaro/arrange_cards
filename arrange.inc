@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 
 # trap ctrl-c and call ctrl_c()
@@ -56,7 +56,7 @@ function usage()
     &
     -x [xpixels] & start X coordinates (default 116)
     -y [ypixels] & start X coordinates (default 116)
-    -g|--gapx [pixels] & x axis distance (gap) between images (default 1)
+    --gapx [pixels] & x axis distance (gap) between images (default 1)
     --gapy [pixels] & y axis distance (gap) between images (default 1)
     &
     -m [markername.png] & use specified marker
@@ -68,8 +68,12 @@ function usage()
     &
     --reverse & arrange items from right to left in order to made matching back side
     &
-    --rmup [pixels] & Delete top x pixel lines from the image (doesn't change canvas size)
-    --rmdown [pixels] & Delete bottom x pixel lines from the image  (doesn't change canvas size)
+    --rmup [pixels] & Delete top x pixel lines from the image (doesn't change canvas size if --crop not used)
+    --rmdown [pixels] & Delete bottom x pixel lines from the image  (doesn't change canvas size if --crop not used)
+    --rmleft [pixels] & Delete left most x pixel lines from the image (doesn't change canvas size if --crop not used)
+    --rmright [pixels] & Delete right most x pixel lines from the image  (doesn't change canvas size if --crop not used)
+    --crop & Disable canvas size preservation while removing part of image with --rmXXX options
+    --mask [filename.png] &  Remove white regions of applied B/W mask
     &
     -b [string] & background color or hex cut pattern (ex. -b FFAAC0, -b hex )
     -d|--debug & write debug to arrange.log file
@@ -105,9 +109,17 @@ function show_markers()
 	echo ""
 }
 
+function show_masks()
+{
+	echo "Masks available:"
+	ls $DATA_DIR/masks/*png|rev|cut -f1 -d"/"|rev
+	echo ""
+}
+
 function list_files()
 {
     show_overlays
     show_scripts
     show_markers
+    show_masks
 }

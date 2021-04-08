@@ -2,7 +2,7 @@
 
 # czytam parametry wywolania
 SHORTOPTS="i:o:f:c:r:s:b:dkh:w:x:y:g:p:m:"
-LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gapx:,gap:,gx:,gapy:,page:,rotate:,rmup:,rmdown:,rmright:,rmleft:,"
+LONGOPTS="mx:,my:,help,list,status,landscape,reverse,debug,keep,gapx:,gapy:,page:,rotate:,rmup:,rmdown:,rmright:,rmleft:,crop,mask:,"
 
 # Execute getopt on the arguments passed to this program, identified by the special character $@
 #PARSED_OPTIONS=$(getopt -n "$0" -o $SHORTOPTS --long "$LONGOPTS"  -- "$@")
@@ -75,6 +75,12 @@ while true; do
          ;;
       -d|--debug)
 	 DEBUG=1
+	echo "Writing debug to arrange.log."
+	rm -f arrange.log
+	exec 19>arrange.log
+	export BASH_XTRACEFD=19
+	set -x
+
          #DEBUG="$2"
          #shift
          ;;
@@ -104,31 +110,44 @@ while true; do
          START_Y="$2"
          shift
          ;;
-      -g|--gx|--gapx|--gap)
-         GAP="$2"
+      --gapx)
 	 GAPX="$2"
          shift
          ;;
-      --gy|--gapy)
+      --gapy)
          GAPY="$2"
          shift
          ;;
       --rmup)
          RMUP="$2"
+         RMIMG=1
          shift
          ;;
       --rmdown)
          RMDOWN="$2"
+         RMIMG=1
          shift
          ;;
       --rmright)
          RMRIGHT="$2"
+         RMIMG=1
          shift
          ;;
       --rmleft)
          RMLEFT="$2"
+         RMIMG=1
          shift
          ;;
+
+      --crop)
+         CROPIMG=1
+         ;;
+
+      --mask)
+         MASK="$2 "
+         shift
+         ;;
+
       -m)
 	 MARKER="$2"
          shift
@@ -228,14 +247,14 @@ fi
 #	BACKGROUND="FFFFFF"
 #fi
 
-if [ "$DEBUG" == "1" ];
-    then
-	echo "Writing debug to arrange.log."
-	rm -f arrange.log
-	exec 19>arrange.log
-	export BASH_XTRACEFD=19
-	set -x
-fi
+#if [ "$DEBUG" == "1" ];
+#    then
+#	echo "Writing debug to arrange.log."
+#	rm -f arrange.log
+#	exec 19>arrange.log
+#	export BASH_XTRACEFD=19
+#	set -x
+#fi
 
 if [ "$KEEP_TEMPORARY" == "" ];
     then
