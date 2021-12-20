@@ -22,13 +22,13 @@ function clean_bg()
 echo "Background color set to ${BACKGROUND}."
 BG_FILE_NAME="$DATA_DIR/background/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
 if [ ! -e "${BG_FILE_NAME}" ]; then
-    convert xc:white -page A4 /tmp/myout.pdf										#create empty white pdf
+    convert -colorspace RGB  xc:white -page A4 /tmp/myout.pdf										#create empty white pdf
     if [ "${ORIENTATION}" == "L" ]; then 
-	convert /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
+	convert  -colorspace RGB  /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
     fi
     convert -colorspace RGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
     #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
-    convert "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
+    convert  -colorspace RGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
 fi
 cp -f "${BG_FILE_NAME}" /tmp/montage.png
 }

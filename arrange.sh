@@ -34,7 +34,7 @@ RESIZE_PERCENT=0
 
 source $SCRIPT_DIR/arrange.inc
 source $SCRIPT_DIR/opts.inc
-mkdir /tmp/1/
+mkdir -p /tmp/1/
 
 
 ####################################################
@@ -87,7 +87,7 @@ for page in $(seq -w 1 $pages);do
 done
 
 echo "Generating $OUTPUT file."
-convert -units PixelsPerInch -density 300 -define pdf:fit-page=A4 page_*_${TIMESTAMP}.png $OUTPUT
+convert -colorspace sRGB -density 300 -units PixelsPerInch -define pdf:fit-page=A4 page_*_${TIMESTAMP}.png $OUTPUT
 if [ $KEEP_TEMPORARY -eq 0 ]; then
     rm -f page_*_${TIMESTAMP}.png
 fi

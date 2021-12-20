@@ -22,7 +22,7 @@ Y=0
 files_in_row=${COLUMN}
 rows=${ROW}
 
-composite -verbose  -geometry +$((PAGE_CENTER-25))+$((50)) ${DATA_DIR}/imgs/strokesI.png /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER-25))+$((50)) ${DATA_DIR}/imgs/strokesI.png /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 
 for r in $(seq 1 ${rows}); do	#row
     for c in $(seq 1 ${files_in_row}); do	#column
@@ -32,6 +32,36 @@ for r in $(seq 1 ${rows}); do	#row
 	if [ "${plik}" != "" ]; then 
 	    echo -n "Processing file ${plik}..."
 	    cp -f ${plik} /tmp/plik		#cp file to tmp location
+
+
+	    if [ ${RMIMG} -eq 1 ]; then
+		SZER=$(identify -format '%w' /tmp/plik) 
+		WYS=$(identify -format '%h' /tmp/plik)
+		STR=''
+
+		if [ ${RMUP} -gt 0 ]; then
+		    STR="${STR} -gravity north -chop 0x${RMUP} "
+		    #convert -extent ${SZER}x${WYS} -gravity south -background none /tmp/plik /tmp/plik
+		fi
+		if [ ${RMDOWN} -gt 0 ]; then
+		    STR="${STR} -gravity south -chop 0x${RMDOWN} "
+		    #convert -extent ${SZER}x${WYS} -gravity north -background none /tmp/plik /tmp/plik
+		fi
+		if [ ${RMLEFT} -gt 0 ]; then
+		    STR="${STR} -gravity west -chop ${RMLEFT}x0 "
+		    #convert -extent ${SZER}x${WYS} -gravity west -background none /tmp/plik /tmp/plik
+		fi
+		if [ ${RMRIGHT} -gt 0 ]; then
+		    STR="${STR} -gravity east -chop ${RMRIGHT}x0 "
+		    #convert -extent ${SZER}x${WYS} -gravity east -background none /tmp/plik /tmp/plik
+		fi
+		convert ${STR} /tmp/plik /tmp/plik
+		if [ ${CROPIMG} -eq 0 ]; then 
+		    convert -extent ${SZER}x${WYS} -gravity center -background none /tmp/plik /tmp/plik
+		fi
+	    fi 
+
+
 
 	    if [ ${ROTATE} -gt 0 ]; then
 		if (( $c % 2 )); then
@@ -57,10 +87,10 @@ for r in $(seq 1 ${rows}); do	#row
 		
 		if (( $c % 2 )); then
     		    #nieparzysta
-		    composite -verbose  -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		else
 		    #parzysta
-		    composite -verbose  -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		fi
 
 	    else	#no resize section
@@ -73,16 +103,16 @@ for r in $(seq 1 ${rows}); do	#row
 		
 		if (( $c % 2 )); then
     		    #nieparzysta/odd
-		    composite -verbose  -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		else
 		    #parzysta/even
-		    composite -verbose  -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		fi
 
 	    fi
 	    rm -f /tmp/plik
 	fi
-	
+
 	if [ $(( $c % 2)) -eq 0 ]; then		    #parzysta/even
 	    #ADD MARKERS
 	    if [ $MARKER_ENABLED -eq 1 ]; then
@@ -105,13 +135,15 @@ for r in $(seq 1 ${rows}); do	#row
 	fi
 
 	echo -en "\n"
+
     done
     Y=$((Y + WYS + GAP));
     X=0				# reset x axis
 done
 
-echo -en "\nGenerating pdf page.\n"
-composite -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} +profile "*" /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
+echo -en "\nGenerating page.\n"
+
+composite -colorspace RGB -density 300 -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} +profile "*" /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
 if [ ${REVERSE} -eq 1 ]; then
 	convert -flop page_${page}_${TIMESTAMP}.png +profile "*" page_${page}_${TIMESTAMP}.png	#REWERS
 fi
