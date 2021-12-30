@@ -1,0 +1,12 @@
+out/h1.png	1
+out/GM1.png	1
+out/h2.png	1
+out/GM2.png	2
+out/h3.png	3
+out/GM3.png	1
+out/h4.png	6
+out/GM4.png	1
+out/h5.png	4
+out/h6.png	4
+out/h7.png	9
+out/h8.png	2
