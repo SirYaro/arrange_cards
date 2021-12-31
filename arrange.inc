@@ -11,7 +11,6 @@ function ctrl_c()
 	exit 0
 }
 
-
 function generate()
 {
     source "$DATA_DIR/scripts/$PROCESSING_SCRIPT"
@@ -122,4 +121,15 @@ function list_files()
     show_scripts
     show_markers
     show_masks
+}
+
+function CheckDeps()
+{
+    for DEP in $DEPS; do
+        echo "Looking for ${DEP}..."
+        which $DEP >> /dev/null
+        if [ $? -eq 1 ]; then
+            echo -ne "Missing required dependency: \"$DEP\". Exiting."; exit 1
+        fi
+    done
 }

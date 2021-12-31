@@ -6,8 +6,9 @@
 #	Bash 4.0.0 +
 #	csvtool
 
-source "${MAIN_DIR}/vars.inc"
+MAIN_DIR=`dirname "$(readlink -f "$0")"`
 
+source "${MAIN_DIR}/vars.inc"
 source "${MAIN_DIR}/arrange.inc"
 source "${MAIN_DIR}/opts.inc"
 mkdir -p /tmp/1/
@@ -15,6 +16,7 @@ mkdir -p /tmp/1/
 
 ####################################################
 
+CheckDeps
 
 if [ ! -f ${INPUT} ]; then
     echo "input file \"$INPUT\" not found!"
@@ -39,8 +41,8 @@ FILES[0]='0'
 
 for OD_LINII in $(seq 1 $NUM)
 do
-    FILENAME+=($(csvtool  -t ';' sub $OD_LINII 1 1 1 ${INPUT}))
-    FILECOUNT+=($(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT}))
+    FILENAME+=("$(csvtool  -t ';' sub $OD_LINII 1 1 1 ${INPUT})")
+    FILECOUNT+=("$(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT})")
     
 #    echo FILENAME= ${FILENAME[OD_LINII]}
 #    echo FILECOUNT= ${FILECOUNT[OD_LINII]}
