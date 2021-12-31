@@ -59,7 +59,7 @@ function usage()
     --gapx [pixels] & x axis distance (gap) between images (default 1)
     --gapy [pixels] & y axis distance (gap) between images (default 1)
     &
-    -m [markername.png] & use specified marker
+    -m [markername.png] & use specified marker. Requires --mx and --my to be defined
     --mx [pixels] & Add cut marker and shift it inwards image by [pixels] distance on X axis
     --my [pixels] & Add cut marker and shift it inwards image by [pixels] distance on Y axis
     &

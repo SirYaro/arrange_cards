@@ -1,0 +1,7 @@
+out/tc_ACL.png	10
+out/tc_ACL_d.png	1
+out/tc_DSL.png	5
+out/tc_DSL_d.png	1
+out/t_ROUND.png	1
+out/t_ship.png	4
+out/t_term20.png	2
