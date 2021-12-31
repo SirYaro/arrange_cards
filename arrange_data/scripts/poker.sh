@@ -4,6 +4,10 @@
 page=`echo $1|rev|cut -f1 -d";"|rev`
 pliki=`echo $1|rev|cut -d";" -f2-|rev`
 
+if [ `tr -dc ';'<<<$pliki| wc -c` -eq 0 ]; then
+    pliki="${pliki};"
+fi
+
 plik=`echo $pliki|cut -f1 -d";"`; if [ "$plik" != "" ]; then composite -verbose  -geometry +152+137  $plik /tmp/montage.png /tmp/montage.png;fi
 plik=`echo $pliki|cut -f2 -d";"`; if [ "$plik" != "" ]; then composite -verbose  -geometry +896+137  $plik /tmp/montage.png /tmp/montage.png;fi
 plik=`echo $pliki|cut -f3 -d";"`; if [ "$plik" != "" ]; then composite -verbose  -geometry +1640+137 $plik /tmp/montage.png /tmp/montage.png;fi
