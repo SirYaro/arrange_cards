@@ -25,7 +25,6 @@ fi
 
 BACKGROUND=$(tr '[:lower:]' '[:upper:]' <<< ${BACKGROUND})
 BACKGROUND=$(tr -d ' ' <<< ${BACKGROUND})
-#files_list=""
 clean_bg
 
 echo "Populating file list."
@@ -33,16 +32,11 @@ echo "Populating file list."
 
 
 NUM=$(awk 'NF' ${INPUT} | wc -l)
-FILENAME[0]='0'
-FILECOUNT[0]='0'
-FILES[0]='0'
-
-#csvtool  -t ';' sub $OD_LINII $OD_KOL $LINIANUM $KOLNUM ${INPUT}
 
 for OD_LINII in $(seq 1 $NUM)
 do
-    FILENAME+=("$(csvtool  -t ';' sub $OD_LINII 1 1 1 ${INPUT})")
-    FILECOUNT+=("$(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT})")
+    FILENAME+=("$(csvtool  -t ';' sub $OD_LINII 1 1 1 ${INPUT})")   #csvtool  -t ';' sub $OD_LINII $OD_KOL $LINIANUM $KOLNUM ${INPUT}
+    FILECOUNT+=("$(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT})")  # druga kolumna
     
 #    echo FILENAME= ${FILENAME[OD_LINII]}
 #    echo FILECOUNT= ${FILECOUNT[OD_LINII]}
@@ -56,7 +50,7 @@ do
     ((ALL_FILES_NUM-=1))
 done
 
-echo "Created list with ${ALL_FILES_NUM}."
+echo "Created list with ${ALL_FILES_NUM} items."
 
 PAGES=$(round ${ALL_FILES_NUM})				        #ilosc stron do generacji
 echo "Creating ${PAGES} page(s), max ${COUNT} images on each page."

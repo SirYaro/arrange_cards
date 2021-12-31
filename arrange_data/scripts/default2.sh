@@ -17,17 +17,13 @@ for r in $(seq 1 ${ROW}); do
     		WYS=$(identify -format '%h' /tmp/plik)
 
 			source "$ACTION_DIR/rotate.sh"	# rotate image
-
 			source "$ACTION_DIR/mask.sh"	# mask (make transparent) part of the image
-
 			source "$ACTION_DIR/rmimage.sh"	# remove part of the image
-
 			source "$ACTION_DIR/resize.sh"	# resize the image
 
 		fi
 
 		source "$ACTION_DIR/addmarkers.sh"	# add cut markers
-
 		source "$ACTION_DIR/showprogress.sh"	# show percentage progress
 
 		X=$((X + SZER + GAPX))

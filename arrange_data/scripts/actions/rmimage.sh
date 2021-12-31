@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ${RMIMG} -eq 1 ]; then
 
     STR=''

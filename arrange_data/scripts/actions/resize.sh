@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ ${RESIZE} -gt 0 ]; then
     if [ $RESIZE -eq 1 ]; then
         convert -resize ${WIDTH}x${HEIGHT} /tmp/plik /tmp/plik

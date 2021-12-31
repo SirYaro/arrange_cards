@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #MARKERS
 if [ ${MARKER_ENABLED} -eq 1 ]; then
     convert -verbose /tmp/montage.png \
