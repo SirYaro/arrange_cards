@@ -27,6 +27,8 @@ for r in $(seq 1 ${ROW}); do
 		source "$ACTION_DIR/addmarkers.sh"	# add cut markers
 		source "$ACTION_DIR/showprogress.sh"	# show percentage progress
 
+		composite -verbose  -geometry +$((START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+
 		X=$((X + SZER + GAPX))
 				
 		if [ ${FILE_NUMBER} -ge ${ALL_FILES_NUM} ]; then	# finish if img count is >= than max
