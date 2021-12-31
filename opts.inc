@@ -232,12 +232,12 @@ fi
 
 if [ "$PROCESSING_SCRIPT" == "" ];
     then
-	echo "Missing parameter -s [script.sh]. Check --help."
+	echo "Missing parameter -s [scriptname.sh]. Check --help."
 	#show_scripts
 	#usage
 	echo ''
-	echo "using \"default.sh\""
-	PROCESSING_SCRIPT='default.sh'
+	echo "using $DEFAULT_PROCESSING_SCRIPT"
+	PROCESSING_SCRIPT="$DEFAULT_PROCESSING_SCRIPT"
 fi
 
 #if [ "$BACKGROUND" == "" ];

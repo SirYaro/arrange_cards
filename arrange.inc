@@ -4,33 +4,33 @@
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT
 
-function ctrl_c() {
-        echo "** Trapped CTRL-C **"
+function ctrl_c()
+{
+    echo "** Trapped CTRL-C **"
 	echo " Exiting"
 	exit 0
 }
 
 
-function generate(){
-
-source "$DATA_DIR/scripts/$PROCESSING_SCRIPT"
-
+function generate()
+{
+    source "$DATA_DIR/scripts/$PROCESSING_SCRIPT"
 }
 
 function clean_bg()
 {
-echo "Background color set to ${BACKGROUND}."
-BG_FILE_NAME="$DATA_DIR/background/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
-if [ ! -e "${BG_FILE_NAME}" ]; then
-    convert -colorspace RGB  xc:white -page A4 /tmp/myout.pdf										#create empty white pdf
-    if [ "${ORIENTATION}" == "L" ]; then 
-	convert  -colorspace RGB  /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
+    echo "Background color set to ${BACKGROUND}."
+    BG_FILE_NAME="$DATA_DIR/background/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
+    if [ ! -e "${BG_FILE_NAME}" ]; then
+        convert -colorspace RGB  xc:white -page ${PAGE_SIZE} /tmp/myout.pdf										#create empty white pdf
+        if [ "${ORIENTATION}" == "L" ]; then 
+        convert  -colorspace RGB  /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
+        fi
+        convert -colorspace RGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
+        #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
+        convert  -colorspace RGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
     fi
-    convert -colorspace RGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
-    #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
-    convert  -colorspace RGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
-fi
-cp -f "${BG_FILE_NAME}" /tmp/montage.png
+    cp -f "${BG_FILE_NAME}" /tmp/montage.png
 }
 
 function usage()
@@ -85,7 +85,7 @@ EOF
 
 function round()
 {
-LC_ALL=C printf "%.*f\n" 0 $(echo "scale=2;($1/$COUNT)+0.4999" | bc) #"
+    LC_ALL=C printf "%.*f\n" 0 $(echo "scale=2;($1/$COUNT)+0.4999" | bc) #"
 };
 
 function show_overlays()
