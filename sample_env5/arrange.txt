@@ -1,0 +1,5 @@
+../sample_env/czarne/K13.JPG;1
+../sample_env/czerwone/K23.JPG;2
+../sample_env/czarne/K13.JPG;3
+../sample_env/czerwone/K23.JPG;4
+niebieskie/N23.JPG;5

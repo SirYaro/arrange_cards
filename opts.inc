@@ -256,12 +256,6 @@ fi
 #	set -x
 #fi
 
-if [ "$KEEP_TEMPORARY" == "" ];
-    then
-	#echo "Missing parameter -k [0|1]"
-	KEEP_TEMPORARY=0
-fi
-
 #if [ "$HEIGHT" != "" ];
 #    then
 #	RESIZE=1

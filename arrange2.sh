@@ -57,7 +57,7 @@ echo "Creating ${PAGES} page(s), max ${COUNT} images on each page."
 
 for PAGE in $(seq -w 1 $PAGES);do
     echo "Processing page ${PAGE} of ${PAGES}."
-    source "$SCRIPT_DIR/$PROCESSING_SCRIPT"         #generacja strony
+    source "${SCRIPT_DIR}/${PROCESSING_SCRIPT}"         #generacja strony
     clean_bg						                #czysci tło
 done
 
@@ -65,7 +65,7 @@ done
 echo "Writing $OUTPUT file."
 convert -colorspace sRGB -density 300 -units PixelsPerInch -define pdf:fit-page=${PAGE_SIZE} "page_*_${TIMESTAMP}.png" "${OUTPUT}"
 if [ ${KEEP_TEMPORARY} -eq 0 ]; then
-    rm -f "page_*_${TIMESTAMP}.png"
+    rm -f page_*_"${TIMESTAMP}".png
 fi
 
 echo "Done."
