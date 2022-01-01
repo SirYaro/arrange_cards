@@ -90,14 +90,14 @@ function round()
 function show_overlays()
 {
 	echo "Overlays available:"
-	ls $DATA_DIR/overlays/*png|rev|cut -f1 -d"/"|rev
+	ls $OVERLAY_DIR/*png|rev|cut -f1 -d"/"|rev
 	echo ""
 }
 
 function show_scripts()
 {
 	echo "Scripts available:"
-	ls $DATA_DIR/scripts/*sh|rev|cut -f1 -d"/"|rev
+	ls $SCRIPT_DIR/*sh|rev|cut -f1 -d"/"|rev
 	echo ""
 }
 
@@ -111,7 +111,7 @@ function show_markers()
 function show_masks()
 {
 	echo "Masks available:"
-	ls $DATA_DIR/masks/*png|rev|cut -f1 -d"/"|rev
+	ls $MASK_DIR/*png|rev|cut -f1 -d"/"|rev
 	echo ""
 }
 

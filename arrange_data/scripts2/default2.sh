@@ -12,7 +12,7 @@ for r in $(seq 1 ${ROW}); do
 		
 		if [ "${PLIK}" != "" ]; then 
 			echo -n "Processing file ${PLIK}..."
-			cp -f ${PLIK} /tmp/plik
+			cp -f "${PLIK}" /tmp/plik
 			SZER=$(identify -format '%w' /tmp/plik) 
     		WYS=$(identify -format '%h' /tmp/plik)
 
@@ -41,8 +41,8 @@ for r in $(seq 1 ${ROW}); do
 done
 
 echo -en "\nGenerating page.\n"
-composite -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} +profile "*" /tmp/canvas.png page_${PAGE}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
+composite -verbose -geometry +0+0 "${OVERLAY_DIR}"/"${FRAME}" +profile "*" /tmp/canvas.png page_"${PAGE}"_"${TIMESTAMP}".png > /dev/null 2>&1		# ADD OVERLAY
 if [ ${REVERSE} -eq 1 ]; then
-	convert -flop page_${PAGE}_${TIMESTAMP}.png +profile "*" page_${PAGE}_${TIMESTAMP}.png	#REWERS
+	convert -flop page_"${PAGE}"_"${TIMESTAMP}".png +profile "*" page_"${PAGE}"_"${TIMESTAMP}".png	#REWERS
 fi
 rm -f /tmp/canvas.png

@@ -1,6 +1,8 @@
 #!/bin/bash
 
 DATA_DIR="$MAIN_DIR/arrange_data"
+MASK_DIR="$DATA_DIR/masks"
+OVERLAY_DIR="$DATA_DIR/overlays"
 SCRIPT_DIR="$DATA_DIR/scripts2"
 ACTION_DIR="$SCRIPT_DIR/actions"
 

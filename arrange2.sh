@@ -6,7 +6,7 @@
 #	Bash 4.0.0 +
 #	csvtool
 
-MAIN_DIR=`dirname "$(readlink -f "$0")"`
+MAIN_DIR=$(dirname "$(readlink -f "$0")")
 
 source "${MAIN_DIR}/vars.inc"
 source "${MAIN_DIR}/functions.inc"
@@ -18,13 +18,13 @@ mkdir -p /tmp/1/
 
 CheckDeps
 
-if [ ! -f ${INPUT} ]; then
+if [ ! -f "${INPUT}" ]; then
     echo "input file \"$INPUT\" not found!"
     exit 1
 fi
 
-BACKGROUND=$(tr '[:lower:]' '[:upper:]' <<< ${BACKGROUND})
-BACKGROUND=$(tr -d ' ' <<< ${BACKGROUND})
+BACKGROUND=$(tr '[:lower:]' '[:upper:]' <<< "${BACKGROUND}")
+BACKGROUND=$(tr -d ' ' <<< "${BACKGROUND}")
 clean_bg
 
 echo "Populating file list."
@@ -64,8 +64,8 @@ done
 
 
 echo "Writing $OUTPUT file."
-convert -colorspace sRGB -density 300 -units PixelsPerInch -define pdf:fit-page=${PAGE_SIZE} "page_*_${TIMESTAMP}.png" "${OUTPUT}"
-if [ ${KEEP_TEMPORARY} -eq 0 ]; then
+convert -colorspace sRGB -density 300 -units PixelsPerInch -define pdf:fit-page="${PAGE_SIZE}" "page_*_${TIMESTAMP}.png" "${OUTPUT}"
+if [ "${KEEP_TEMPORARY}" -eq 0 ]; then
     rm -f page_*_"${TIMESTAMP}".png
 fi
 
