@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-# This file is deprecated. Use only with v1
 
 # trap ctrl-c and call ctrl_c()
 trap ctrl_c INT
@@ -22,13 +21,13 @@ function clean_bg()
     echo "Background color set to ${BACKGROUND}."
     BG_FILE_NAME="$DATA_DIR/background/${BACKGROUND}_${PAGE_SIZE}_${ORIENTATION}.jpg"
     if [ ! -e "${BG_FILE_NAME}" ]; then
-        convert -colorspace RGB  xc:white -page ${PAGE_SIZE} /tmp/myout.pdf										#create empty white pdf
+        convert -colorspace sRGB  xc:white -page "${PAGE_SIZE}" /tmp/myout.pdf										#create empty white pdf
         if [ "${ORIENTATION}" == "L" ]; then 
-        convert  -colorspace RGB  /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								#rotate it for landscape pages
+        convert  -colorspace sRGB  /tmp/myout.pdf -rotate 90 /tmp/myout.pdf								            #rotate it for landscape pages
         fi
-        convert -colorspace RGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								#turn into image
+        convert -colorspace sRGB -density 300 /tmp/myout.pdf "/tmp/myout.jpg"								        #turn into image
         #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
-        convert  -colorspace RGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"					# fill with color
+        convert  -colorspace sRGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"			# fill with color
     fi
     cp -f "${BG_FILE_NAME}" /tmp/montage.png
 }
@@ -59,7 +58,7 @@ function usage()
     --gapx [pixels] & x axis distance (gap) between images (default 1)
     --gapy [pixels] & y axis distance (gap) between images (default 1)
     &
-    -m [markername.png] & use specified marker
+    -m [markername.png] & use specified marker. Requires --mx and --my to be defined
     --mx [pixels] & Add cut marker and shift it inwards image by [pixels] distance on X axis
     --my [pixels] & Add cut marker and shift it inwards image by [pixels] distance on Y axis
     &

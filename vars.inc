@@ -1,8 +1,8 @@
 #!/bin/bash
 
 DATA_DIR="$MAIN_DIR/arrange_data"
-SCRIPT_DIR="$DATA_DIR/scripts"
-ACTION_DIR="$DATA_DIR/scripts/actions"
+SCRIPT_DIR="$DATA_DIR/scripts2"
+ACTION_DIR="$SCRIPT_DIR/actions"
 
 
 BACKGROUND="FFFFFF"

@@ -22,7 +22,7 @@ Y=0
 files_in_row=${COLUMN}
 rows=${ROW}
 
-composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER-25))+$((50)) ${DATA_DIR}/imgs/strokesI.png /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER-25))+$((50)) ${DATA_DIR}/imgs/strokesI.png /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 
 for r in $(seq 1 ${rows}); do	#row
     for c in $(seq 1 ${files_in_row}); do	#column
@@ -87,10 +87,10 @@ for r in $(seq 1 ${rows}); do	#row
 		
 		if (( $c % 2 )); then
     		    #nieparzysta
-		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		else
 		    #parzysta
-		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		fi
 
 	    else	#no resize section
@@ -103,10 +103,10 @@ for r in $(seq 1 ${rows}); do	#row
 		
 		if (( $c % 2 )); then
     		    #nieparzysta/odd
-		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER - START_X - X - SZER))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		else
 		    #parzysta/even
-		    composite -verbose -colorspace RGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
+		    composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER + START_X + X))+$((START_Y + Y)) /tmp/plik /tmp/montage.png /tmp/montage.png > /dev/null 2>&1
 		fi
 
 	    fi
@@ -143,7 +143,7 @@ done
 
 echo -en "\nGenerating page.\n"
 
-composite -colorspace RGB -density 300 -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} +profile "*" /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
+composite -colorspace sRGB -density 300 -verbose -geometry +0+0 ${DATA_DIR}/overlays/${FRAME} +profile "*" /tmp/montage.png page_${page}_${TIMESTAMP}.png > /dev/null 2>&1		# ADD OVERLAY
 if [ ${REVERSE} -eq 1 ]; then
 	convert -flop page_${page}_${TIMESTAMP}.png +profile "*" page_${page}_${TIMESTAMP}.png	#REWERS
 fi
