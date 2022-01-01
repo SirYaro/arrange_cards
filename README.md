@@ -1,7 +1,7 @@
-# arrange images<BR>
+# Lay out images<BR>
 <BR>
 
-This script arrange specified images on A4 sheet<BR>
+This script lays out specified images on paper sheet<BR>
 <BR>
 --<BR>
 **Set it up**<BR>
