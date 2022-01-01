@@ -29,7 +29,7 @@ function clean_bg()
         #convert -units PixelsPerInch -density 300 -size 2480x3508 xc:white "$DATA_DIR/${BACKGROUND}.jpg";		
         convert  -colorspace sRGB  "/tmp/myout.jpg" -fill "#${BACKGROUND}" -colorize 100% "${BG_FILE_NAME}"			# fill with color
     fi
-    cp -f "${BG_FILE_NAME}" /tmp/montage.png
+    cp -f "${BG_FILE_NAME}" /tmp/canvas.png
 }
 
 function usage()
