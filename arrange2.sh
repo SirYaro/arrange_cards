@@ -36,13 +36,11 @@ NUM=$(awk 'NF' "${INPUT}" | wc -l)
 for OD_LINII in $(seq 1 "$NUM")
 do
     FILENAME+=("$(csvtool  -t ';' sub $OD_LINII 1 1 1 ${INPUT})")   #csvtool  -t ';' sub $OD_LINII $OD_KOL $LINIANUM $KOLNUM ${INPUT}
-    #FILECOUNT+=("$(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT})")  # druga kolumna
     
 #    echo FILENAME= ${FILENAME[OD_LINII]}
 #    echo FILECOUNT= ${FILECOUNT[OD_LINII]}
 
     for num in $(seq 1 "$(csvtool  -t ';' sub $OD_LINII 2 1 1 ${INPUT})")   # powtórz tyle razy ile wynosi wartość w 2 kolumnie
-    #`seq 1 ${FILECOUNT[OD_LINII]}`
     do
 	    FILES+=("${FILENAME[OD_LINII]}")
     done
@@ -58,7 +56,7 @@ echo "Creating ${PAGES} page(s), max ${COUNT} images on each page."
 
 for PAGE in $(seq -w 1 $PAGES);do
     echo "Processing page ${PAGE} of ${PAGES}."
-    source "${SCRIPT_DIR}/${PROCESSING_SCRIPT}"         #generacja strony
+    source "${SCRIPT_DIR}/${PROCESSING_SCRIPT}"      #generacja strony
     clean_bg						                 #czysci tło
 done
 

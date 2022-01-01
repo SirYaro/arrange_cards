@@ -4,10 +4,9 @@ X=0
 Y=0
 
 
-for r in $(seq 1 ${ROW}); do
-    for c in $(seq 1 ${COLUMN}); do
+for r in $(seq 1 "${ROW}"); do
+    for c in $(seq 1 "${COLUMN}"); do
 		((FILE_NUMBER+=1))
-
 		PLIK=${FILES[$FILE_NUMBER]}			# starts from index=1
 		
 		if [ "${PLIK}" != "" ]; then 
