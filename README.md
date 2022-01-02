@@ -12,7 +12,7 @@ Change ImageMagic permissions<BR>
 sudo apt -y install xmlstarlet
 cd /etc/ImageMagick-6  #check if that is correct directory
 sudo xmlstarlet edit -L --update "/policymap/policy[@name='disk']/@value" --value "16GiB" policy.xml  #allows to handle files up to 16GB
-sudo xmlstarlet edit -L --subnode "/policymap" --type elem --name 'policy domain="coder" rights="read | write" pattern="PDF" ' policy.xml #allows read/write pdfs
+sudo xmlstarlet edit -L --subnode "/policymap" --type elem --name 'policy domain="coder" rights="read|write" pattern="PDF" ' policy.xml #allows read/write pdfs
 ```
 if you still getting an error:<BR>
 `convert-im6.q16: not authorized 'filename.pdf' @ error/constitute.c/WriteImage/1037.`<BR>
