@@ -240,32 +240,6 @@ if [ "$PROCESSING_SCRIPT" == "" ];
 	PROCESSING_SCRIPT="$DEFAULT_PROCESSING_SCRIPT"
 fi
 
-#if [ "$BACKGROUND" == "" ];
-#    then
-#	echo "Missing parameter -b [color]"
-#	echo "Using default white"
-#	BACKGROUND="FFFFFF"
-#fi
-
-#if [ "$DEBUG" == "1" ];
-#    then
-#	echo "Writing debug to arrange.log."
-#	rm -f arrange.log
-#	exec 19>arrange.log
-#	export BASH_XTRACEFD=19
-#	set -x
-#fi
-
-#if [ "$HEIGHT" != "" ];
-#    then
-#	RESIZE=1
-#fi
-
-#if [ "$WIDTH" != "" ];
-#    then
-#	RESIZE=1
-#fi
-
 if [ "$GAP" == "" ];
     then
 	GAP=$DEFAULT_GAP
