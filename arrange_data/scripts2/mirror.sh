@@ -13,13 +13,12 @@ Y=0
 # fold line
 composite -verbose -colorspace sRGB -density 300 -geometry +$((PAGE_CENTER-25))+$((50)) "${DATA_DIR}"/imgs/strokesI.png /tmp/canvas.png /tmp/canvas.png > /dev/null 2>&1
 
-for r in $(seq 1 ${ROW}); do			#row
-    for c in $(seq 1 ${COLUMN}); do		#column
-		((FILE_NUMBER+=1))
-		PLIKI=${FILES[$FILE_NUMBER]}
+for r in $(seq 1 ${ROW}); do			#rząd
+    for c in $(seq 1 $((COLUMN/2))); do		#kolumna
+		((FILE_NUMBER+=2))
 
-		PLIKL=$(cut -f1 -d'|' <<< "${PLIKI}")
-		PLIKP=$(cut -f2 -d'|' <<< "${PLIKI}")
+		PLIKL=${FILES[(($FILE_NUMBER-1))]}
+		PLIKP=${FILES[$FILE_NUMBER]}
 
 		if [ "${PLIKL}" != "" ]; then 
 			echo -n "Processing files ${PLIKL}, ${PLIKP}..."
@@ -47,8 +46,6 @@ for r in $(seq 1 ${ROW}); do			#row
     				WYS=$(identify -format '%h' /tmp/plikL)
 					convert -extent ${SZER}x${WYS} -gravity center -background none /tmp/plikL /tmp/plikL
 				fi
-			fi
-			if [ ${RMIMG} -eq 1 ]; then
 				STR=''
 				if [ ${RMUP} -gt 0 ]; then
 					STR="${STR} -gravity north -chop 0x${RMUP} "
@@ -72,30 +69,21 @@ for r in $(seq 1 ${ROW}); do			#row
 
 			if [ ${ROTATE} -gt 0 ]; then
 				convert +profile "*" -rotate "${ROTATE}" /tmp/plikL /tmp/plikL
-			fi
-			if [ ${ROTATE} -gt 0 ]; then
 				convert +profile "*" -rotate "${ROTATE}" /tmp/plikP /tmp/plikP
 			fi
 
 			if [ ${RESIZE} -gt 0 ]; then
 				if [ $RESIZE -eq 1 ]; then
 					convert -resize ${WIDTH}x${HEIGHT} /tmp/plikL /tmp/plikL
-				elif [ $RESIZE -eq 2 ]; then
-					convert -resize ${RESIZE_PERCENT}% /tmp/plikL /tmp/plikL
-				fi
-			fi
-			if [ ${RESIZE} -gt 0 ]; then
-				if [ $RESIZE -eq 1 ]; then
 					convert -resize ${WIDTH}x${HEIGHT} /tmp/plikP /tmp/plikP
 				elif [ $RESIZE -eq 2 ]; then
+					convert -resize ${RESIZE_PERCENT}% /tmp/plikL /tmp/plikL
 					convert -resize ${RESIZE_PERCENT}% /tmp/plikP /tmp/plikP
 				fi
 			fi
 
 			if [ ${REVERSE} -eq 1 ]; then
 				convert -flop /tmp/plikL /tmp/plikL
-			fi
-			if [ ${REVERSE} -eq 1 ]; then
 				convert -flop /tmp/plikP /tmp/plikP
 			fi
 
